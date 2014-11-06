@@ -1,4 +1,6 @@
 #include "e_epuck_ports.h"
+#include "e_motors.h"
+#include "e_prox.h"
 
 #define LIGHT_WAIT 1
 
@@ -50,16 +52,37 @@ void SwitchLED(int led, int on)
 
 int main(void)
 {
-    long wait;
-    e_init_port();
+	int prox7, prox0;
+	long i;
 
-    while(1)
+    e_init_port();
+	e_init_motors();
+	e_init_prox();
+
+	//e_set_speed_left(500); //go forward on half speed
+ 	//e_set_speed_right(-500); //go backward on half speed
+    
+	while(1)
     {
-        LED0 = LED0 ^ 1;
-        
-        for(wait=0; wait<100000; wait++)
-        {
-                asm("nop");
-        }
+        prox7 = e_get_prox(7);
+		prox0 = e_get_prox(0);
+
+		if(prox0 > 100 || prox7 > 100) {
+			prox0 *= 10;
+			prox7 *= 10;
+
+			if (prox0 > 1000)
+				prox0 = 1000;
+
+			if (prox7 > 1000)
+				prox7 = 1000;
+
+			e_set_speed_left(prox0);
+			e_set_speed_right(prox7);
+		} else {
+			e_set_speed_left(0);
+			e_set_speed_right(0);
+		}
+		for(i=0; i<100000; i++) { asm("nop"); }
     }
 }
