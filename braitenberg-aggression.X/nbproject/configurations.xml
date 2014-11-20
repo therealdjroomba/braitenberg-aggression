@@ -10,6 +10,7 @@
       <itemPath>../e_motors.h</itemPath>
       <itemPath>../e_prox.h</itemPath>
       <itemPath>../e_ad_conv.h</itemPath>
+      <itemPath>../utils.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -23,6 +24,7 @@
       <itemPath>../e_motors.c</itemPath>
       <itemPath>../e_prox.c</itemPath>
       <itemPath>../e_ad_conv.c</itemPath>
+      <itemPath>../utils.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -47,7 +49,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.23</languageToolchainVersion>
+        <languageToolchainVersion>1.22</languageToolchainVersion>
         <platform>4</platform>
       </toolsSet>
       <compileType>

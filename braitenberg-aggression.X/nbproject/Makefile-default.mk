@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c
+SOURCEFILES_QUOTED_IF_SPACED=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c ../utils.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1472/e_init_port.o.d ${OBJECTDIR}/_ext/1472/robot_main.o.d ${OBJECTDIR}/_ext/1472/e_motors.o.d ${OBJECTDIR}/_ext/1472/e_prox.o.d ${OBJECTDIR}/_ext/1472/e_ad_conv.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o ${OBJECTDIR}/_ext/1472/utils.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1472/e_init_port.o.d ${OBJECTDIR}/_ext/1472/robot_main.o.d ${OBJECTDIR}/_ext/1472/e_motors.o.d ${OBJECTDIR}/_ext/1472/e_prox.o.d ${OBJECTDIR}/_ext/1472/e_ad_conv.o.d ${OBJECTDIR}/_ext/1472/utils.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o
+OBJECTFILES=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o ${OBJECTDIR}/_ext/1472/utils.o
 
 # Source Files
-SOURCEFILES=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c
+SOURCEFILES=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c ../utils.c
 
 
 CFLAGS=
@@ -117,6 +117,13 @@ ${OBJECTDIR}/_ext/1472/e_ad_conv.o: ../e_ad_conv.c  nbproject/Makefile-${CND_CON
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../e_ad_conv.c  -o ${OBJECTDIR}/_ext/1472/e_ad_conv.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/e_ad_conv.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1    -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/e_ad_conv.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/1472/utils.o: ../utils.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/utils.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/utils.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../utils.c  -o ${OBJECTDIR}/_ext/1472/utils.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/utils.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1    -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/utils.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/_ext/1472/e_init_port.o: ../e_init_port.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
@@ -152,6 +159,13 @@ ${OBJECTDIR}/_ext/1472/e_ad_conv.o: ../e_ad_conv.c  nbproject/Makefile-${CND_CON
 	@${RM} ${OBJECTDIR}/_ext/1472/e_ad_conv.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../e_ad_conv.c  -o ${OBJECTDIR}/_ext/1472/e_ad_conv.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/e_ad_conv.o.d"        -g -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/e_ad_conv.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1472/utils.o: ../utils.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/utils.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/utils.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../utils.c  -o ${OBJECTDIR}/_ext/1472/utils.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/utils.o.d"        -g -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/utils.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 
