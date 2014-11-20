@@ -11,6 +11,8 @@
       <itemPath>../e_prox.h</itemPath>
       <itemPath>../e_ad_conv.h</itemPath>
       <itemPath>../utils.h</itemPath>
+      <itemPath>../braitenberg.h</itemPath>
+      <itemPath>../navigation.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -25,6 +27,8 @@
       <itemPath>../e_prox.c</itemPath>
       <itemPath>../e_ad_conv.c</itemPath>
       <itemPath>../utils.c</itemPath>
+      <itemPath>../braitenberg.c</itemPath>
+      <itemPath>../navigation.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -50,7 +54,7 @@
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>1.22</languageToolchainVersion>
-        <platform>4</platform>
+        <platform>3</platform>
       </toolsSet>
       <compileType>
         <linkerTool>

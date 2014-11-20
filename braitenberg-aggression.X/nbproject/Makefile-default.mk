@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c ../utils.c
+SOURCEFILES_QUOTED_IF_SPACED=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c ../utils.c ../braitenberg.c ../navigation.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o ${OBJECTDIR}/_ext/1472/utils.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1472/e_init_port.o.d ${OBJECTDIR}/_ext/1472/robot_main.o.d ${OBJECTDIR}/_ext/1472/e_motors.o.d ${OBJECTDIR}/_ext/1472/e_prox.o.d ${OBJECTDIR}/_ext/1472/e_ad_conv.o.d ${OBJECTDIR}/_ext/1472/utils.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o ${OBJECTDIR}/_ext/1472/utils.o ${OBJECTDIR}/_ext/1472/braitenberg.o ${OBJECTDIR}/_ext/1472/navigation.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1472/e_init_port.o.d ${OBJECTDIR}/_ext/1472/robot_main.o.d ${OBJECTDIR}/_ext/1472/e_motors.o.d ${OBJECTDIR}/_ext/1472/e_prox.o.d ${OBJECTDIR}/_ext/1472/e_ad_conv.o.d ${OBJECTDIR}/_ext/1472/utils.o.d ${OBJECTDIR}/_ext/1472/braitenberg.o.d ${OBJECTDIR}/_ext/1472/navigation.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o ${OBJECTDIR}/_ext/1472/utils.o
+OBJECTFILES=${OBJECTDIR}/_ext/1472/e_init_port.o ${OBJECTDIR}/_ext/1472/robot_main.o ${OBJECTDIR}/_ext/1472/e_motors.o ${OBJECTDIR}/_ext/1472/e_prox.o ${OBJECTDIR}/_ext/1472/e_ad_conv.o ${OBJECTDIR}/_ext/1472/utils.o ${OBJECTDIR}/_ext/1472/braitenberg.o ${OBJECTDIR}/_ext/1472/navigation.o
 
 # Source Files
-SOURCEFILES=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c ../utils.c
+SOURCEFILES=../e_init_port.c ../robot_main.c ../e_motors.c ../e_prox.c ../e_ad_conv.c ../utils.c ../braitenberg.c ../navigation.c
 
 
 CFLAGS=
@@ -124,6 +124,20 @@ ${OBJECTDIR}/_ext/1472/utils.o: ../utils.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../utils.c  -o ${OBJECTDIR}/_ext/1472/utils.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/utils.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1    -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/utils.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/1472/braitenberg.o: ../braitenberg.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/braitenberg.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/braitenberg.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../braitenberg.c  -o ${OBJECTDIR}/_ext/1472/braitenberg.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/braitenberg.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1    -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/braitenberg.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1472/navigation.o: ../navigation.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/navigation.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/navigation.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../navigation.c  -o ${OBJECTDIR}/_ext/1472/navigation.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/navigation.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1    -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/navigation.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/_ext/1472/e_init_port.o: ../e_init_port.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1472 
@@ -166,6 +180,20 @@ ${OBJECTDIR}/_ext/1472/utils.o: ../utils.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/_ext/1472/utils.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../utils.c  -o ${OBJECTDIR}/_ext/1472/utils.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/utils.o.d"        -g -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/utils.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1472/braitenberg.o: ../braitenberg.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/braitenberg.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/braitenberg.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../braitenberg.c  -o ${OBJECTDIR}/_ext/1472/braitenberg.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/braitenberg.o.d"        -g -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/braitenberg.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/1472/navigation.o: ../navigation.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1472 
+	@${RM} ${OBJECTDIR}/_ext/1472/navigation.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1472/navigation.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../navigation.c  -o ${OBJECTDIR}/_ext/1472/navigation.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1472/navigation.o.d"        -g -omf=elf -O0 -I".." -I"." -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1472/navigation.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 
