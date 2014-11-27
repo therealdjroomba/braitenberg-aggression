@@ -5,6 +5,7 @@
 
 #include "braitenberg.h"
 #include "utils.h"
+#include "navigation.h"
 
 int main(void) {
 
@@ -30,6 +31,10 @@ int main(void) {
                 break;
             case 4:
                 executeBrait(CURIOUS);
+                break;
+            case 5:
+                TurnToTarget();
+                wait(1000000);
                 break;
             default:
                 e_set_speed_left(0);

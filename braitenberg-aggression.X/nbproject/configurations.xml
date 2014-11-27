@@ -54,7 +54,7 @@
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>1.22</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>4</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
