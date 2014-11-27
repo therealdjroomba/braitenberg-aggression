@@ -41,7 +41,7 @@ void InitNavigation()
     lastStepsL = lastStepsR = 0;
 
     // Set up timer 2
-    T2CONbits.TON = 0;            // stop Timer2
+    /*T2CONbits.TON = 0;            // stop Timer2
 
     T2CON = 0;                    //
     T2CONbits.TCKPS=3;            // prescsaler = 256
@@ -49,15 +49,21 @@ void InitNavigation()
     PR2 = (FCY/256)/abs(10);      // interrupt every 10ms with 256 prescaler
     IFS0bits.T2IF = 0;            // clear interrupt flag
     IEC0bits.T2IE = 1;            // set interrupt enable bit
-    T2CONbits.TON = 1;            // Start Timer2
+    T2CONbits.TON = 1;            */// Start Timer2
 }
 
 void UpdateCurrentPos()
 {
+    int curLSteps = e_get_steps_left();
+    int curRSteps = e_get_steps_right();
+
     // Get change in motor counters
-    int dL = e_get_steps_left() - lastStepsL;
-    int dR = e_get_steps_right() - lastStepsR;
-    
+    int dL = curLSteps - lastStepsL;
+    int dR = curRSteps - lastStepsR;
+
+    lastStepsL = curLSteps;
+    lastStepsR = curRSteps;
+
     double scaler = (double)(dR + dL)/2.0;
 
     double dAngle = (dR - dL) / (2*MOTOR_DIST);
