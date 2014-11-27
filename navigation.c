@@ -1,6 +1,7 @@
 #include "navigation.h"
 
-#include "math.h"
+#include <math.h>
+#include <stdbool.h>
 #include "e_epuck_ports.h"
 #include "e_motors.h"
 
@@ -72,4 +73,62 @@ void UpdateCurrentPos()
     curPosY += scaler * sin(curAngle + dAngle);
 
     curAngle += (dR - dL) / MOTOR_DIST;
+}
+
+double GetAngleChange(double targetX, double targetY){
+    double curX = GetCurPosX();
+    double curY = GetCurPosY();
+
+    double dX = targetX - curX;
+    double dY = targetY - curY;
+
+    if (dX < 0) dX *= -1;
+    if (dY < 0) dY *= -1;
+
+    double angleChange = atan(dX/dY);
+
+    if (targetX > curX){
+        if (targetY < curY){
+            angleChange = 3.141 - angleChange;
+        }
+    } else {
+        if (targetY > curY){
+            angleChange += 3.141;
+        } else {
+            angleChange = 2*3.141 - angleChange;
+        }
+    }
+
+    return angleChange;
+}
+
+void TurnByAngle(double angle){
+
+    int turningLeftModifier = -1;
+
+    if (angle <= 3.141){
+        turningLeftModifier = 1;
+    } else {
+        turningLeftModifier = -1;
+    }
+
+    double startingAngle = GetCurAngle();
+
+    int turningSpeed = 100;
+
+    //start turnign
+    e_set_speed_left(turningSpeed * turningLeftModifier);
+    e_set_speed_right(-(turningSpeed * turningLeftModifier));
+
+    while(GetCurAngle() - startingAngle < angle){
+
+    }
+
+    e_set_speed_left(0);
+    e_set_speed_right(0);
+}
+
+void TurnToTarget(){
+    //TurnByAngle(GetAngleChange(-10, 10));
+    TurnByAngle(3.141/4);
 }

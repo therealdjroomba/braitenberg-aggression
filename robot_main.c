@@ -6,6 +6,7 @@
 #include "braitenberg.h"
 #include "navigation.h"
 #include "utils.h"
+#include "navigation.h"
 
 #define M_PI 3.14159265358979323846
 #define THRESHOLD 0.5
@@ -99,6 +100,10 @@ int main(void) {
                 break;
             case 4:
                 executeBrait(CURIOUS);
+                break;
+            case 5:
+                TurnToTarget();
+                wait(1000000);
                 break;
             default:
                 e_set_speed_left(0);
