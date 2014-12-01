@@ -51,9 +51,9 @@
         <targetDevice>dsPIC30F6014A</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>Simulator</platformTool>
+        <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.22</languageToolchainVersion>
+        <languageToolchainVersion>1.23</languageToolchainVersion>
         <platform>4</platform>
       </toolsSet>
       <compileType>
