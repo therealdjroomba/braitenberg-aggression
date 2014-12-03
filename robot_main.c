@@ -16,12 +16,9 @@ int main(void) {
     e_init_motors();
     e_init_prox();
     InitNavigation();
-
-    double targetAngle = GetAngleChange(-1,-1);
-
     int waitTicks = 0;
 
-    StartTurning(targetAngle);
+    SetTarget(10*82, 10*82);
     while (1)
     {
         if (waitTicks % 100 == 0)
@@ -30,7 +27,7 @@ int main(void) {
         }
         if (waitTicks % 100 == 0)
         {
-            UpdateNav(targetAngle);
+            UpdateNav();
         }
         if (waitTicks == 10000) {
             waitTicks = 0;

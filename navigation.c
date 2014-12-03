@@ -5,13 +5,17 @@
 #include "e_epuck_ports.h"
 #include "e_motors.h"
 
-#define TURNING_SPEED 800
-#define THRESHOLD 0.01
+#define TURNING_SPEED 300
+#define TURNING_THRESHOLD 0.01
+#define MOVING_THRESHOLD 30.0
 #define M_PI 3.14159265358979323846
 
 static double curPosX;
 static double curPosY;
 static double curAngle;
+
+static double targetX;
+static double targetY;
 
 static int lastStepsL;
 static int lastStepsR;
@@ -68,8 +72,8 @@ void UpdateCurrentPos() {
 
     double dAngle = (dR - dL) / (2 * MOTOR_DIST);
 
-    curPosX += scaler * cos(curAngle + dAngle);
-    curPosY += scaler * sin(curAngle + dAngle);
+    curPosX += scaler * -sin(curAngle + dAngle);
+    curPosY += scaler * cos(curAngle + dAngle);
 
     curAngle += (dR - dL) / MOTOR_DIST;
 
@@ -163,25 +167,52 @@ void StartTurning(double angle) {
 
 }
 
-void TurnToTarget() {
-    //TurnByAngle(GetAngleChange(-10, 10));
-    // TurnByAngle(3.141/4);
+
+
+void SetTarget(double x, double y) {
+    targetX = x;
+    targetY = y;
 }
 
-void UpdateNav(double targetAngle) {
-
+void UpdateNav() {
+    /*double targetAngle = GetAngleChange(targetX, targetY);
 
     if (targetAngle - GetCurAngle() < THRESHOLD && targetAngle - GetCurAngle() > -THRESHOLD) {
+        if (GetCurPosX() > targetX && GetCurPosY() > targetY) {
+            e_set_speed_left(0);
+            e_set_speed_right(0);
+        } else {
+            e_set_speed_left(TURNING_SPEED);
+            e_set_speed_right(TURNING_SPEED);
+        }
+        
+    } else {
+        StartTurning(targetAngle);
+    }*/
+
+    TurnToTarget();
+}
+
+void TurnToTarget() {
+    double targetAngle = GetAngleChange(targetX, targetY);
+
+    if (fabs(targetAngle - GetCurAngle()) < TURNING_THRESHOLD) {
         e_set_speed_left(0);
         e_set_speed_right(0);
+        MoveForwardsToTarget();
+        return;
+    } else {
+        StartTurning(targetAngle);
     }
+}
 
-
-    /*  double dist = abs(GetCurAngle() - targetAngle);
-
-      if (dist < THRESHOLD) {
-          e_set_speed_left(0);
-          e_set_speed_right(0);
-
-      }*/
+void MoveForwardsToTarget(){
+    if (fabs(GetCurPosX() - targetX) < MOVING_THRESHOLD &&
+            fabs(GetCurPosY() - targetY) < MOVING_THRESHOLD) {
+        e_set_speed_left(0);
+        e_set_speed_right(0);
+    } else {
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(TURNING_SPEED);
+    }
 }

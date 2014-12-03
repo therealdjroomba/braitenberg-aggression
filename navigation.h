@@ -13,7 +13,6 @@
 #ifndef NAVIGATION_H
 #define	NAVIGATION_H
 
-//#define	MOTOR_DIST 333.333
 #define	MOTOR_DIST 420.00
 
 /*
@@ -38,8 +37,11 @@ double GetAngleChange(double x, double y);
 double GetAngleWithinRange(double angle);
 
 void StartTurning(double angle);
-void UpdateNav(double targetAngle);
+void UpdateNav();
 void TurnToTarget();
+void MoveForwardsToTarget();
+
+void SetTarget(double x, double y);
 
 #endif	/* NAVIGATION_H */
 
