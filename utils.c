@@ -54,6 +54,11 @@ void switchLED(int LED, int power)
     }
 }
 
+void LEDError()
+{
+    switchLED(-1, 1);
+}
+
 /*
  * Wait for 100K noops to prevent
  * the poor epuck from exploding...

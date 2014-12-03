@@ -6,7 +6,7 @@
 #include "e_motors.h"
 
 
-#define THRESHOLD 0.0
+#define THRESHOLD 0.01
 #define M_PI 3.14159265358979323846
 
 static double curPosX;
@@ -101,18 +101,28 @@ double GetAngleChange(double targetX, double targetY) {
     return angleChange;
 }
 
+/*
+ * Angle must be between -PI and PI
+ */
 void StartTurning(double angle) {
 
+    if (angle < -M_PI * 1.1667 || angle > M_PI * 1.1667)
+    {
+        LEDError();
+        e_set_speed_left(0);
+        e_set_speed_right(0);
+        return;
+    }
 
     int turningSpeed = 100;
 
-    //if (angle <= M_PI) {
+    if (angle >= 0) {
         e_set_speed_left(-turningSpeed);
         e_set_speed_right(turningSpeed);
-    /*} else {
+    } else {
         e_set_speed_left(turningSpeed);
         e_set_speed_right(-turningSpeed);
-    }*/
+    }
 
 }
 
@@ -124,7 +134,7 @@ void TurnToTarget() {
 void UpdateNav(double targetAngle) {
 
 
-    if (targetAngle - GetCurAngle() < THRESHOLD/* && targetAngle - GetCurAngle() > -THRESHOLD*/) {
+    if (targetAngle - GetCurAngle() < THRESHOLD && targetAngle - GetCurAngle() > -THRESHOLD) {
                 e_set_speed_left(0);
                 e_set_speed_right(0);
             }

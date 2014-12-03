@@ -17,8 +17,8 @@ int main(void) {
     e_init_prox();
     InitNavigation();
 
-    double targetAngle = 2 * M_PI;
-
+    double targetAngle = -0.5 * M_PI;
+    targetAngle *= 1.1667;
     wait(1000000);
 
     int waitTicks = 0;
@@ -30,22 +30,15 @@ int main(void) {
         {
             UpdateCurrentPos();
         }
-        if (waitTicks % 10000 == 0)
+        if (waitTicks % 100 == 0)
         {
-            //UpdateNav(targetAngle);
-            if (GetCurAngle() > targetAngle) {
-                e_set_speed_left(0);
-                e_set_speed_right(0);
-            }
-
-            LED0 = LED0^1;
+            UpdateNav(targetAngle);
         }
         if (waitTicks == 10000) {
             waitTicks = 0;
         }
         waitTicks++;
         wait(100);
-        //Turning();
 
         /*
         switch (getSelector())
