@@ -7,8 +7,9 @@
 
 #define TURNING_SPEED 300
 #define TURNING_THRESHOLD 0.01
-#define MOVING_THRESHOLD 30.0
+#define MOVING_THRESHOLD 10.0
 #define M_PI 3.14159265358979323846
+#define STEPS_PER_CM 77.6
 
 static double curPosX;
 static double curPosY;
@@ -169,26 +170,17 @@ void StartTurning(double angle) {
 
 
 
-void SetTarget(double x, double y) {
+void SetTargetInSteps(double x, double y) {
     targetX = x;
     targetY = y;
 }
 
-void UpdateNav() {
-    /*double targetAngle = GetAngleChange(targetX, targetY);
+void SetTargetInCM(double x, double y) {
+    targetX = x * STEPS_PER_CM;
+    targetY = y * STEPS_PER_CM;
+}
 
-    if (targetAngle - GetCurAngle() < THRESHOLD && targetAngle - GetCurAngle() > -THRESHOLD) {
-        if (GetCurPosX() > targetX && GetCurPosY() > targetY) {
-            e_set_speed_left(0);
-            e_set_speed_right(0);
-        } else {
-            e_set_speed_left(TURNING_SPEED);
-            e_set_speed_right(TURNING_SPEED);
-        }
-        
-    } else {
-        StartTurning(targetAngle);
-    }*/
+void UpdateNav() {
 
     TurnToTarget();
 }

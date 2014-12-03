@@ -18,7 +18,7 @@ int main(void) {
     InitNavigation();
     int waitTicks = 0;
 
-    SetTarget(10*82, 10*82);
+    SetTargetInSteps(10*82, 10*82);
     while (1)
     {
         if (waitTicks % 100 == 0)

@@ -39,9 +39,10 @@ double GetAngleWithinRange(double angle);
 void StartTurning(double angle);
 void UpdateNav();
 void TurnToTarget();
+void TurnToTargetInCM();
 void MoveForwardsToTarget();
 
-void SetTarget(double x, double y);
+void SetTargetInSteps(double x, double y);
 
 #endif	/* NAVIGATION_H */
 
