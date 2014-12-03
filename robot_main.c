@@ -2,9 +2,9 @@
 #include "e_init_port.h"
 #include "e_motors.h"
 #include "e_prox.h"
+#include "math.h"
 
 #include "braitenberg.h"
-#include "navigation.h"
 #include "utils.h"
 #include "navigation.h"
 
@@ -17,9 +17,7 @@ int main(void) {
     e_init_prox();
     InitNavigation();
 
-    double targetAngle = -0.5 * M_PI;
-    targetAngle *= 1.1667;
-    wait(1000000);
+    double targetAngle = GetAngleChange(-1,-1);
 
     int waitTicks = 0;
 

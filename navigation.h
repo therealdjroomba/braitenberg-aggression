@@ -13,7 +13,8 @@
 #ifndef NAVIGATION_H
 #define	NAVIGATION_H
 
-#define	MOTOR_DIST 350.000
+//#define	MOTOR_DIST 333.333
+#define	MOTOR_DIST 420.00
 
 /*
  * Initalises variables and Timer 2 ready for navigation
@@ -32,6 +33,13 @@ double GetCurAngle();
  * Updates current position
  */
 void UpdateCurrentPos();
+
+double GetAngleChange(double x, double y);
+double GetAngleWithinRange(double angle);
+
+void StartTurning(double angle);
+void UpdateNav(double targetAngle);
+void TurnToTarget();
 
 #endif	/* NAVIGATION_H */
 

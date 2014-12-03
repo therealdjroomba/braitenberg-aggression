@@ -5,7 +5,7 @@
 #include "e_epuck_ports.h"
 #include "e_motors.h"
 
-
+#define TURNING_SPEED 800
 #define THRESHOLD 0.01
 #define M_PI 3.14159265358979323846
 
@@ -72,33 +72,71 @@ void UpdateCurrentPos() {
     curPosY += scaler * sin(curAngle + dAngle);
 
     curAngle += (dR - dL) / MOTOR_DIST;
+
+    // Now to make sure it is in the range -PI to PI
+
+    curAngle = GetAngleWithinRange(curAngle);
 }
 
+/*
+ * \brief Gets the equivalent angle in the range -PI < angle <= PI
+ *
+ * \param angle The input angle in radians
+ *
+ * \return An equivalent angle in the range -PI < angle <= PI
+ *
+ */
+double GetAngleWithinRange(double angle) {
+
+    // If the angle is indeed out of range, add/subtract a full revolution
+    if (angle > M_PI) {
+        angle -= (2 * M_PI);
+    } else if (angle <= -M_PI) {
+        angle += (2 * M_PI);
+    }
+
+    // This will keep adding/subtracting 2 * PI until the angle is within range
+    if (angle <= M_PI && angle > -M_PI) {
+        return angle;
+    } else {
+        return GetAngleWithinRange(angle);
+    }
+}
+
+/*
+ * \brief Calculates the change in angle required to face the given target
+ *
+ * \param targetX Target X-Coordinate
+ * \param targetY Target Y-Coordinate
+ *
+ * \return Angle within the range -PI < angle <= PI representing the change
+ *          needed to face the given target
+ *
+ */
 double GetAngleChange(double targetX, double targetY) {
     double curX = GetCurPosX();
     double curY = GetCurPosY();
 
-    double dX = targetX - curX;
-    double dY = targetY - curY;
+    double dX = fabs(targetX - curX);
+    double dY = fabs(targetY - curY);
 
-    if (dX < 0) dX *= -1;
-    if (dY < 0) dY *= -1;
+    double angle;
 
-    double angleChange = atan(dX / dY);
-
-    if (targetX > curX) {
-        if (targetY < curY) {
-            angleChange = 3.141 - angleChange;
-        }
+    // Calculate angles for left quadrants
+    if (targetY > curY) {
+        // Q1
+        angle = atan(dX / dY);
     } else {
-        if (targetY > curY) {
-            angleChange += 3.141;
-        } else {
-            angleChange = 2 * 3.141 - angleChange;
-        }
+        // Q2
+        angle = atan(dY / dX) + (M_PI / 2);
     }
 
-    return angleChange;
+    // If the target is in the right quadrants, we need to make it negative
+    if (targetX >= curX) {
+        angle = -angle;
+    }
+
+    return angle;
 }
 
 /*
@@ -106,22 +144,21 @@ double GetAngleChange(double targetX, double targetY) {
  */
 void StartTurning(double angle) {
 
-    if (angle < -M_PI * 1.1667 || angle > M_PI * 1.1667)
-    {
+    if (angle < -M_PI || angle > M_PI) {
         LEDError();
         e_set_speed_left(0);
         e_set_speed_right(0);
         return;
     }
 
-    int turningSpeed = 100;
-
-    if (angle >= 0) {
-        e_set_speed_left(-turningSpeed);
-        e_set_speed_right(turningSpeed);
+    if (angle > 0) {
+        // TURN LEFT
+        e_set_speed_left(-TURNING_SPEED);
+        e_set_speed_right(TURNING_SPEED);
     } else {
-        e_set_speed_left(turningSpeed);
-        e_set_speed_right(-turningSpeed);
+        //TURN RIGHT
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(-TURNING_SPEED);
     }
 
 }
@@ -135,16 +172,16 @@ void UpdateNav(double targetAngle) {
 
 
     if (targetAngle - GetCurAngle() < THRESHOLD && targetAngle - GetCurAngle() > -THRESHOLD) {
-                e_set_speed_left(0);
-                e_set_speed_right(0);
-            }
-
-
-  /*  double dist = abs(GetCurAngle() - targetAngle);
-
-    if (dist < THRESHOLD) {
         e_set_speed_left(0);
         e_set_speed_right(0);
+    }
 
-    }*/
+
+    /*  double dist = abs(GetCurAngle() - targetAngle);
+
+      if (dist < THRESHOLD) {
+          e_set_speed_left(0);
+          e_set_speed_right(0);
+
+      }*/
 }
