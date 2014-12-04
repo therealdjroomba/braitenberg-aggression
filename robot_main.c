@@ -28,7 +28,6 @@ int main(void) {
         if (waitTicks % 100 == 0)
         {
             UpdateNav();
-            //FollowLeftWall();
         }
         if (waitTicks == 10000) {
             waitTicks = 0;
