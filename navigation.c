@@ -5,10 +5,16 @@
 #include "e_epuck_ports.h"
 #include "e_motors.h"
 
+#define MAX_SENSOR_OVER_VALUE 3750.0
+
+#define MAX_TURNING_SPEED 800
+#define MIN_TURNING_SPEED 0
 #define TURNING_SPEED 300
 #define TURNING_THRESHOLD 0.01
 #define MOVING_THRESHOLD 30.0
 #define M_PI 3.14159265358979323846
+
+#define SENSOR_WALL_DIST 1200.0
 
 #define STEPS_PER_CM 77.6
 
@@ -82,6 +88,67 @@ void UpdateCurrentPos() {
     // Now to make sure it is in the range -PI to PI
 
     curAngle = GetAngleWithinRange(curAngle);
+}
+
+void FollowLeftWall()
+{
+    switchLED(-1, 0);
+    if (e_get_prox(0) > SENSOR_WALL_DIST / 2.0 ||
+            e_get_prox(7) > SENSOR_WALL_DIST / 2.0)
+    {
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(-TURNING_SPEED);
+        return;
+    }
+
+    int sensor_5 = e_get_prox(5);
+    int sensor_6 = e_get_prox(6);
+
+    int sensorSpeed_5 = TURNING_SPEED * (sensor_5 - SENSOR_WALL_DIST);
+    int sensorSpeed_6 = TURNING_SPEED * (sensor_6 * 2 - SENSOR_WALL_DIST);
+
+    int averageWeightedSensorValue = (sensorSpeed_5 + sensorSpeed_6) / 2.0;
+
+    int lSpeed = averageWeightedSensorValue;
+
+    if (lSpeed > MAX_TURNING_SPEED)
+    {
+        lSpeed = MAX_TURNING_SPEED;
+    }
+    else if (lSpeed < MIN_TURNING_SPEED)
+    {
+        lSpeed = MIN_TURNING_SPEED;
+    }
+
+    if (lSpeed <= MIN_TURNING_SPEED)
+    {
+        switchLED(6, 1);
+    }
+    else
+    {
+        switchLED(2, 1);
+    }
+
+    e_set_speed_left(lSpeed);
+
+    double overDesiredSensorValue = (double)averageWeightedSensorValue - SENSOR_WALL_DIST;
+
+    if (overDesiredSensorValue > 0)
+    {
+        double percentOfMaxSensor = overDesiredSensorValue / MAX_SENSOR_OVER_VALUE;
+        int rSpeed = TURNING_SPEED * (1.0 - percentOfMaxSensor);
+
+        if (rSpeed < 0)
+        {
+            rSpeed = 0;
+        }
+
+        e_set_speed_right(rSpeed);
+    }
+    else
+    {
+        e_set_speed_right(TURNING_SPEED);
+    }
 }
 
 /*
