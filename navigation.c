@@ -10,6 +10,8 @@
 #define MOVING_THRESHOLD 30.0
 #define M_PI 3.14159265358979323846
 
+#define STEPS_PER_CM 77.6
+
 static double curPosX;
 static double curPosY;
 static double curAngle;
@@ -172,6 +174,11 @@ void StartTurning(double angle) {
 void SetTarget(double x, double y) {
     targetX = x;
     targetY = y;
+}
+
+void SetTargetInCM(double x, double y) {
+    targetX = x * STEPS_PER_CM;
+    targetY = y * STEPS_PER_CM;
 }
 
 void UpdateNav() {

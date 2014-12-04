@@ -42,6 +42,7 @@ void TurnToTarget();
 void MoveForwardsToTarget();
 
 void SetTarget(double x, double y);
+void SetTargetInCM(double x, double y);
 
 #endif	/* NAVIGATION_H */
 
