@@ -13,7 +13,7 @@
 #ifndef NAVIGATION_H
 #define	NAVIGATION_H
 
-#define	MOTOR_DIST 420.00
+#define	MOTOR_DIST 400.00
 
 /*
  * Initalises variables and Timer 2 ready for navigation

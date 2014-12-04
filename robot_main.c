@@ -18,7 +18,7 @@ int main(void) {
     InitNavigation();
     int waitTicks = 0;
 
-    SetTargetInCM(10, 10);
+    SetTargetInCM(0, 50);
     while (1)
     {
         if (waitTicks % 100 == 0)
@@ -27,8 +27,8 @@ int main(void) {
         }
         if (waitTicks % 100 == 0)
         {
-            //UpdateNav();
-            FollowLeftWall();
+            UpdateNav();
+            //FollowLeftWall();
         }
         if (waitTicks == 10000) {
             waitTicks = 0;

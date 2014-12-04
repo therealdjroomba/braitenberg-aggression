@@ -5,16 +5,12 @@
 #include "e_epuck_ports.h"
 #include "e_motors.h"
 
-#define MAX_SENSOR_OVER_VALUE 3750.0
-
-#define MAX_TURNING_SPEED 800
-#define MIN_TURNING_SPEED 0
 #define TURNING_SPEED 300
 #define TURNING_THRESHOLD 0.01
 #define MOVING_THRESHOLD 30.0
 #define M_PI 3.14159265358979323846
 
-#define SENSOR_WALL_DIST 1200.0
+#define SENSOR_WALL_DIST 900.0
 
 #define STEPS_PER_CM 77.6
 
@@ -27,6 +23,8 @@ static double targetY;
 
 static int lastStepsL;
 static int lastStepsR;
+
+static int hugging;
 
 /* Internal functions */
 void __attribute__((interrupt, auto_psv))
@@ -92,62 +90,59 @@ void UpdateCurrentPos() {
 
 void FollowLeftWall()
 {
-    switchLED(-1, 0);
-    if (e_get_prox(0) > SENSOR_WALL_DIST / 2.0 ||
-            e_get_prox(7) > SENSOR_WALL_DIST / 2.0)
+    if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD)
     {
-        e_set_speed_left(TURNING_SPEED);
-        e_set_speed_right(-TURNING_SPEED);
-        return;
+        switchLED(-1, 1);
+    }
+    else
+    {
+        switchLED(-1, 0);
     }
 
     int sensor_5 = e_get_prox(5);
-    int sensor_6 = e_get_prox(6);
+    int sensor_6 = e_get_prox(6) * 2;
+    int sensor_7 = e_get_prox(7) * 4;
 
-    int sensorSpeed_5 = TURNING_SPEED * (sensor_5 - SENSOR_WALL_DIST);
-    int sensorSpeed_6 = TURNING_SPEED * (sensor_6 * 2 - SENSOR_WALL_DIST);
-
-    int averageWeightedSensorValue = (sensorSpeed_5 + sensorSpeed_6) / 2.0;
-
-    int lSpeed = averageWeightedSensorValue;
-
-    if (lSpeed > MAX_TURNING_SPEED)
+    int maxSensor;
+    if (sensor_5 > sensor_6)
     {
-        lSpeed = MAX_TURNING_SPEED;
-    }
-    else if (lSpeed < MIN_TURNING_SPEED)
-    {
-        lSpeed = MIN_TURNING_SPEED;
-    }
-
-    if (lSpeed <= MIN_TURNING_SPEED)
-    {
-        switchLED(6, 1);
+        maxSensor = sensor_5;
     }
     else
     {
-        switchLED(2, 1);
+        maxSensor = sensor_6;
     }
 
-    e_set_speed_left(lSpeed);
-
-    double overDesiredSensorValue = (double)averageWeightedSensorValue - SENSOR_WALL_DIST;
-
-    if (overDesiredSensorValue > 0)
+    if (sensor_7 > maxSensor)
     {
-        double percentOfMaxSensor = overDesiredSensorValue / MAX_SENSOR_OVER_VALUE;
-        int rSpeed = TURNING_SPEED * (1.0 - percentOfMaxSensor);
-
-        if (rSpeed < 0)
+        if (sensor_7 > (int)SENSOR_WALL_DIST)
         {
-            rSpeed = 0;
+            e_set_speed_left(TURNING_SPEED);
+            e_set_speed_right(-TURNING_SPEED);
         }
-
-        e_set_speed_right(rSpeed);
+        else
+        {
+            e_set_speed_left(TURNING_SPEED);
+            e_set_speed_right(TURNING_SPEED);
+        }
     }
     else
     {
-        e_set_speed_right(TURNING_SPEED);
+        if (maxSensor > (int)SENSOR_WALL_DIST * 1.2)
+        {
+            e_set_speed_left(TURNING_SPEED);
+            e_set_speed_right(0);
+        }
+        else if (maxSensor < (int)(SENSOR_WALL_DIST * 0.8))
+        {
+            e_set_speed_left(0);
+            e_set_speed_right(TURNING_SPEED);
+        }
+        else
+        {
+            e_set_speed_left(TURNING_SPEED);
+            e_set_speed_right(TURNING_SPEED);
+        }
     }
 }
 
@@ -264,7 +259,35 @@ void UpdateNav() {
         StartTurning(targetAngle);
     }*/
 
-    TurnToTarget();
+
+    if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD)
+    {
+        switchLED(-1, 1);
+    }
+    else
+    {
+        switchLED(-1, 0);
+    }
+
+    if (hugging == 1) {
+        double targetAngle = GetAngleChange(targetX, targetY);
+
+        if (fabs(targetAngle - GetCurAngle()) < TURNING_THRESHOLD &&
+               (e_get_prox(0) < SENSOR_WALL_DIST/4.0 &&
+            e_get_prox(7) < SENSOR_WALL_DIST/4.0) ) {
+            hugging = 0;
+        } else {
+            FollowLeftWall();
+        }
+    } else {
+        if (e_get_prox(0) > SENSOR_WALL_DIST * 1.1 ||
+            e_get_prox(7) > SENSOR_WALL_DIST * 1.1)
+        {
+            hugging = 1;
+        } else {
+            TurnToTarget();
+        }
+    }
 }
 
 void TurnToTarget() {
