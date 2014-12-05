@@ -22,6 +22,7 @@ void InitNavigation();
 
 void FollowLeftWall();
 
+void RunAway();
 /*
  * Get the position data
  */

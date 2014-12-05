@@ -2,6 +2,14 @@
 #include "e_epuck_ports.h"
 
 
+int max(int a, int b){
+    if(a > b){
+        return a;
+    }else{
+        return b;
+    }
+}
+
 /*
  * Get the current value of the selector
  */
@@ -42,6 +50,8 @@ void switchLED(int LED, int power)
         case 7:
             LED7 = power;
             break;
+        case 8:
+            FRONT_LED = power;
         default:
             LED0 = power;
             LED1 = power;
@@ -51,6 +61,7 @@ void switchLED(int LED, int power)
             LED5 = power;
             LED6 = power;
             LED7 = power;
+            FRONT_LED = power;
     }
 }
 

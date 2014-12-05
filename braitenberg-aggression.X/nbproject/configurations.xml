@@ -13,6 +13,7 @@
       <itemPath>../utils.h</itemPath>
       <itemPath>../braitenberg.h</itemPath>
       <itemPath>../navigation.h</itemPath>
+      <itemPath>../zombie_infestation_2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -29,6 +30,7 @@
       <itemPath>../utils.c</itemPath>
       <itemPath>../braitenberg.c</itemPath>
       <itemPath>../navigation.c</itemPath>
+      <itemPath>../zombie_infestation_2.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -53,8 +55,8 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.22</languageToolchainVersion>
-        <platform>4</platform>
+        <languageToolchainVersion>1.23</languageToolchainVersion>
+        <platform>3</platform>
       </toolsSet>
       <compileType>
         <linkerTool>

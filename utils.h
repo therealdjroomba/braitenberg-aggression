@@ -10,12 +10,15 @@
 
 /* Functions */
 /*
- * Get the current value of the selector
+ */
+int max(int a, int b);
+
+ /* Get the current value of the selector
  */
 int getSelector();
 
 void switchLED(int LED, int power);
-
+void LEDError();
 /*
  * Wait for 100K noops to prevent
  * the poor epuck from exploding...

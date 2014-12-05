@@ -12,6 +12,8 @@
 
 #define SENSOR_WALL_DIST 900.0
 
+#define ZOMBIE_WALL_DIST 700.0
+
 #define STEPS_PER_CM 77.6
 
 static double curPosX;
@@ -88,14 +90,10 @@ void UpdateCurrentPos() {
     curAngle = GetAngleWithinRange(curAngle);
 }
 
-void FollowLeftWall()
-{
-    if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD)
-    {
+void FollowLeftWall() {
+    if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD) {
         switchLED(-1, 1);
-    }
-    else
-    {
+    } else {
         switchLED(-1, 0);
     }
 
@@ -104,42 +102,28 @@ void FollowLeftWall()
     int sensor_7 = e_get_prox(7) * 4;
 
     int maxSensor;
-    if (sensor_5 > sensor_6)
-    {
+    if (sensor_5 > sensor_6) {
         maxSensor = sensor_5;
-    }
-    else
-    {
+    } else {
         maxSensor = sensor_6;
     }
 
-    if (sensor_7 > maxSensor)
-    {
-        if (sensor_7 > (int)SENSOR_WALL_DIST)
-        {
+    if (sensor_7 > maxSensor) {
+        if (sensor_7 > (int) SENSOR_WALL_DIST) {
             e_set_speed_left(TURNING_SPEED);
             e_set_speed_right(-TURNING_SPEED);
-        }
-        else
-        {
+        } else {
             e_set_speed_left(TURNING_SPEED);
             e_set_speed_right(TURNING_SPEED);
         }
-    }
-    else
-    {
-        if (maxSensor > (int)SENSOR_WALL_DIST * 1.2)
-        {
+    } else {
+        if (maxSensor > (int) SENSOR_WALL_DIST * 1.2) {
             e_set_speed_left(TURNING_SPEED);
             e_set_speed_right(0);
-        }
-        else if (maxSensor < (int)(SENSOR_WALL_DIST * 0.8))
-        {
+        } else if (maxSensor < (int) (SENSOR_WALL_DIST * 0.8)) {
             e_set_speed_left(0);
             e_set_speed_right(TURNING_SPEED);
-        }
-        else
-        {
+        } else {
             e_set_speed_left(TURNING_SPEED);
             e_set_speed_right(TURNING_SPEED);
         }
@@ -231,8 +215,6 @@ void StartTurning(double angle) {
 
 }
 
-
-
 void SetTarget(double x, double y) {
     targetX = x;
     targetY = y;
@@ -260,12 +242,9 @@ void UpdateNav() {
     }*/
 
 
-    if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD)
-    {
+    if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD) {
         switchLED(-1, 1);
-    }
-    else
-    {
+    } else {
         switchLED(-1, 0);
     }
 
@@ -273,20 +252,44 @@ void UpdateNav() {
         double targetAngle = GetAngleChange(targetX, targetY);
 
         if (fabs(targetAngle - GetCurAngle()) < TURNING_THRESHOLD &&
-               (e_get_prox(0) < SENSOR_WALL_DIST/4.0 &&
-            e_get_prox(7) < SENSOR_WALL_DIST/4.0) ) {
+                (e_get_prox(0) < SENSOR_WALL_DIST / 4.0 &&
+                e_get_prox(7) < SENSOR_WALL_DIST / 4.0)) {
             hugging = 0;
         } else {
             FollowLeftWall();
         }
     } else {
         if (e_get_prox(0) > SENSOR_WALL_DIST * 1.1 ||
-            e_get_prox(7) > SENSOR_WALL_DIST * 1.1)
-        {
+                e_get_prox(7) > SENSOR_WALL_DIST * 1.1) {
             hugging = 1;
         } else {
             TurnToTarget();
         }
+    }
+}
+
+void RunAway() {
+    int sensor_5 = e_get_prox(5);
+    int sensor_6 = e_get_prox(6) * 2;
+    int sensor_7 = e_get_prox(7) * 4;
+
+    int rightMaxSensor = max(max(sensor_5, sensor_6),sensor_7);
+
+    int sensor_2 = e_get_prox(2);
+    int sensor_1 = e_get_prox(1) * 2;
+    int sensor_0 = e_get_prox(0) * 4;
+
+    int leftMaxSensor = max(max(sensor_2, sensor_1),sensor_0);
+
+    if (rightMaxSensor > (int) ZOMBIE_WALL_DIST) {
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(-TURNING_SPEED);
+    }else if(leftMaxSensor > (int) ZOMBIE_WALL_DIST){
+        e_set_speed_left(-TURNING_SPEED);
+        e_set_speed_right(TURNING_SPEED);
+    }else{
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(TURNING_SPEED);
     }
 }
 
@@ -303,7 +306,7 @@ void TurnToTarget() {
     }
 }
 
-void MoveForwardsToTarget(){
+void MoveForwardsToTarget() {
     if (fabs(GetCurPosX() - targetX) < MOVING_THRESHOLD &&
             fabs(GetCurPosY() - targetY) < MOVING_THRESHOLD) {
         e_set_speed_left(0);
