@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "e_epuck_ports.h"
 #include "e_motors.h"
 

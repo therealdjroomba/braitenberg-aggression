@@ -11,7 +11,6 @@
 /* Functions */
 /*
  */
-int max(int a, int b);
 
  /* Get the current value of the selector
  */
