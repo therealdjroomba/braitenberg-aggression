@@ -12,12 +12,11 @@
 #include "utils.h"
 #include "zombie_infestation_2.h"
 
-#define HIT_THRESHOLD 1000
+#define HIT_THRESHOLD 1250
 #define M_PI 3.14159265358979323846
 
 static int turning = 0;
-static double storedAngle;
-static double angleChange;
+static double targetAngle;
 static int human = 1;
 
 int IsHuman() {
@@ -41,21 +40,16 @@ void Zombie() {
     if (turning == 0) {
         if (e_get_prox(0) > HIT_THRESHOLD || e_get_prox(7) > HIT_THRESHOLD) {
             turning = 1;
-            storedAngle = GetCurAngle();
             //~PI-x degrees + x*2 degrees * randomPercentage
-            angleChange = (M_PI-(M_PI/6)) + ((M_PI/3) * ((double)rand())/RAND_MAX);
-            if(fabs(angleChange - M_PI) < 0.05){//0.01 is turning threshold, this is only more to be cautious
-                angleChange = M_PI+0.05;
-            }
+            double angleChangeRange = M_PI/6;//target angle will be 180 +/- a percent of this value
+            double randomPercentage = (((double)rand())/RAND_MAX);
+            double angleChange = (M_PI-angleChangeRange) + (2 * angleChangeRange * randomPercentage);
+            targetAngle = GetAngleWithinRange(GetCurAngle()+angleChange);
+            StartTurning(targetAngle);
         } else {
             executeBrait(AGGRESSION);
         }
-    } else {
-        if (fabs(storedAngle - GetCurAngle()) < angleChange) {
-            e_set_speed_left(-500);
-            e_set_speed_right(500);
-        } else {
+    } else if(fabs(targetAngle - GetCurAngle()) < 0.01){
             turning = 0;
-        }
     }
 }
