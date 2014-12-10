@@ -1,21 +1,12 @@
 #include "navigation.h"
 
 #include <math.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include "e_epuck_ports.h"
+#include "e_prox.h"
 #include "e_motors.h"
-
-#define TURNING_SPEED 300
-#define TURNING_THRESHOLD 0.01
-#define MOVING_THRESHOLD 30.0
-#define M_PI 3.14159265358979323846
-
-#define SENSOR_WALL_DIST 900.0
-
-#define ZOMBIE_WALL_DIST 700.0
-
-#define STEPS_PER_CM 77.6
+#include "settings.h"
+#include "utils.h"
 
 static double curPosX;
 static double curPosY;
@@ -227,22 +218,6 @@ void SetTargetInCM(double x, double y) {
 }
 
 void UpdateNav() {
-    /*double targetAngle = GetAngleChange(targetX, targetY);
-
-    if (targetAngle - GetCurAngle() < THRESHOLD && targetAngle - GetCurAngle() > -THRESHOLD) {
-        if (GetCurPosX() > targetX && GetCurPosY() > targetY) {
-            e_set_speed_left(0);
-            e_set_speed_right(0);
-        } else {
-            e_set_speed_left(TURNING_SPEED);
-            e_set_speed_right(TURNING_SPEED);
-        }
-        
-    } else {
-        StartTurning(targetAngle);
-    }*/
-
-
     if (fabs(GetAngleChange(targetX, targetY) - GetCurAngle()) < TURNING_THRESHOLD) {
         switchLED(-1, 1);
     } else {
@@ -266,31 +241,6 @@ void UpdateNav() {
         } else {
             TurnToTarget();
         }
-    }
-}
-
-void RunAway() {
-    int sensor_5 = e_get_prox(5);
-    int sensor_6 = e_get_prox(6) * 2;
-    int sensor_7 = e_get_prox(7) * 4;
-
-    int rightMaxSensor = max(max(sensor_5, sensor_6),sensor_7);
-
-    int sensor_2 = e_get_prox(2);
-    int sensor_1 = e_get_prox(1) * 2;
-    int sensor_0 = e_get_prox(0) * 4;
-
-    int leftMaxSensor = max(max(sensor_2, sensor_1),sensor_0);
-
-    if (rightMaxSensor > (int) ZOMBIE_WALL_DIST) {
-        e_set_speed_left(TURNING_SPEED);
-        e_set_speed_right(-TURNING_SPEED);
-    }else if(leftMaxSensor > (int) ZOMBIE_WALL_DIST){
-        e_set_speed_left(-TURNING_SPEED);
-        e_set_speed_right(TURNING_SPEED);
-    }else{
-        e_set_speed_left(TURNING_SPEED);
-        e_set_speed_right(TURNING_SPEED);
     }
 }
 

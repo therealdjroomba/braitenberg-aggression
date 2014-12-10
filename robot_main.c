@@ -1,17 +1,14 @@
+#include <time.h>
+#include <stdlib.h>
+
 #include "e_epuck_ports.h"
 #include "e_init_port.h"
 #include "e_motors.h"
 #include "e_prox.h"
-#include "math.h"
-#include <time.h>
-#include <stdlib.h>
-
 #include "braitenberg.h"
 #include "utils.h"
 #include "navigation.h"
 #include "zombie_infestation_2.h"
-
-#define M_PI 3.14159265358979323846
 
 int main(void) {
     srand(time(NULL));
@@ -27,8 +24,6 @@ int main(void) {
             UpdateCurrentPos();
         }
         if (waitTicks % 100 == 0) {
-            //switchLED(-1, 0);
-            //switchLED(getSelector(), 1);
             switch (getSelector()) {
                 case 1:
                     executeBrait(AGGRESSION);
@@ -50,18 +45,13 @@ int main(void) {
                     UpdateNav();
                     break;
                 case 7:
-                    switchLED(-1, 0);
                     //starts as human
-                    if (IsHuman() == 1) {
-                        Human();
+                    if (isHuman() == 1) {
+                        executeHuman();
                     } else {
-                        Zombie();
+                        executeZombie();
                     }
                     break;
-                    /*case 8:
-                        //starts as zombie
-                        Zombie();
-                        break;*/
                 default:
                     e_set_speed_left(0);
                     e_set_speed_right(0);
@@ -72,6 +62,5 @@ int main(void) {
         }
         waitTicks++;
         wait(100);
-        //wait100K();
     }
 }

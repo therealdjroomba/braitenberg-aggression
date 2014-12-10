@@ -1,4 +1,6 @@
 #include "braitenberg.h"
+#include "e_motors.h"
+#include "e_prox.h"
 
 void aggression(int leftSensor, int rightSensor)
 {

@@ -11,19 +11,17 @@
 #include "navigation.h"
 #include "utils.h"
 #include "zombie_infestation_2.h"
-
-#define HIT_THRESHOLD 1250
-#define M_PI 3.14159265358979323846
+#include "settings.h"
 
 static int turning = 0;
 static double targetAngle;
 static int human = 1;
 
-int IsHuman() {
+int isHuman() {
     return human;
 }
 
-void Human() {
+void executeHuman() {
     switchLED(0, 1);
     int sensor;
     for (sensor = 0; sensor < 8; sensor++) {
@@ -35,7 +33,7 @@ void Human() {
     RunAway();
 }
 
-void Zombie() {
+void executeZombie() {
     switchLED(-1, 1);
     if (turning == 0) {
         if (e_get_prox(0) > HIT_THRESHOLD || e_get_prox(7) > HIT_THRESHOLD) {
@@ -51,5 +49,30 @@ void Zombie() {
         }
     } else if(fabs(targetAngle - GetCurAngle()) < 0.01){
             turning = 0;
+    }
+}
+
+void RunAway() {
+    int sensor_5 = e_get_prox(5);
+    int sensor_6 = e_get_prox(6) * 2;
+    int sensor_7 = e_get_prox(7) * 4;
+
+    int rightMaxSensor = max(max(sensor_5, sensor_6),sensor_7);
+
+    int sensor_2 = e_get_prox(2);
+    int sensor_1 = e_get_prox(1) * 2;
+    int sensor_0 = e_get_prox(0) * 4;
+
+    int leftMaxSensor = max(max(sensor_2, sensor_1),sensor_0);
+
+    if (rightMaxSensor > (int) ZOMBIE_WALL_DIST) {
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(-TURNING_SPEED);
+    }else if(leftMaxSensor > (int) ZOMBIE_WALL_DIST){
+        e_set_speed_left(-TURNING_SPEED);
+        e_set_speed_right(TURNING_SPEED);
+    }else{
+        e_set_speed_left(TURNING_SPEED);
+        e_set_speed_right(TURNING_SPEED);
     }
 }
