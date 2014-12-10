@@ -39,16 +39,16 @@ void executeZombie() {
         if (e_get_prox(0) > HIT_THRESHOLD || e_get_prox(7) > HIT_THRESHOLD) {
             turning = 1;
             //~PI-x degrees + x*2 degrees * randomPercentage
-            double angleChangeRange = M_PI/6;//target angle will be 180 +/- a percent of this value
-            double randomPercentage = (((double)rand())/RAND_MAX);
-            double angleChange = (M_PI-angleChangeRange) + (2 * angleChangeRange * randomPercentage);
-            targetAngle = GetAngleWithinRange(GetCurAngle()+angleChange);
+            double angleChangeRange = M_PI / 6; //target angle will be PI +/- a percent of this value
+            double randomPercentage = (((double) rand()) / RAND_MAX);
+            double angleChange = (M_PI - angleChangeRange) + (2 * angleChangeRange * randomPercentage);
+            targetAngle = GetAngleWithinRange(GetCurAngle() + angleChange);
             StartTurning(targetAngle);
         } else {
             executeBrait(AGGRESSION);
         }
-    } else if(fabs(targetAngle - GetCurAngle()) < 0.01){
-            turning = 0;
+    } else if (fabs(targetAngle - GetCurAngle()) < TURNING_THRESHOLD){
+        turning = 0;
     }
 }
 
@@ -57,21 +57,21 @@ void RunAway() {
     int sensor_6 = e_get_prox(6) * 2;
     int sensor_7 = e_get_prox(7) * 4;
 
-    int rightMaxSensor = max(max(sensor_5, sensor_6),sensor_7);
+    int rightMaxSensor = max(max(sensor_5, sensor_6), sensor_7);
 
     int sensor_2 = e_get_prox(2);
     int sensor_1 = e_get_prox(1) * 2;
     int sensor_0 = e_get_prox(0) * 4;
 
-    int leftMaxSensor = max(max(sensor_2, sensor_1),sensor_0);
+    int leftMaxSensor = max(max(sensor_2, sensor_1), sensor_0);
 
-    if (rightMaxSensor > (int) ZOMBIE_WALL_DIST) {
+    if (rightMaxSensor > (int) ZOMBIE_WALL_DIST){
         e_set_speed_left(TURNING_SPEED);
         e_set_speed_right(-TURNING_SPEED);
-    }else if(leftMaxSensor > (int) ZOMBIE_WALL_DIST){
+    } else if (leftMaxSensor > (int) ZOMBIE_WALL_DIST){
         e_set_speed_left(-TURNING_SPEED);
         e_set_speed_right(TURNING_SPEED);
-    }else{
+    } else {
         e_set_speed_left(TURNING_SPEED);
         e_set_speed_right(TURNING_SPEED);
     }
